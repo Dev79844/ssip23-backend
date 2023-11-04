@@ -4,10 +4,10 @@ const {addProduct,updateProduct,getOneProduct,getAllProducts,deleteProduct} = re
 
 const router = express.Router()
 
-router.post("/product/add", auth.isArtist, addProduct)
-router.put("/product/update/:id", auth.isArtist, updateProduct)
-router.delete("/product/delete/:id", auth.isArtist, deleteProduct)
-router.get("/product/one/:id", auth.isArtist, getOneProduct)
-router.get("/product/all", auth.isArtist, getAllProducts)
+router.post("/add", auth.isArtist, addProduct)
+router.put("/update/:id", auth.isArtist, updateProduct)
+router.delete("/delete/:id", auth.isArtist, deleteProduct)
+router.get("/one/:id", auth.isArtist, getOneProduct)
+router.get("/all", auth.isArtist, getAllProducts)
 
 module.exports = router
