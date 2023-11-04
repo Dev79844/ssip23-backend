@@ -18,8 +18,7 @@ app.use(fileUpload({
     tempFileDir: '/tmp/',
 }))
 
-app.use("/api/v1/product", productRouter)
-
+app.use("/api/v1/product",productRouter)
 mongoose.connect(process.env.URI)
     .then(() => {
         console.log("DB connected");

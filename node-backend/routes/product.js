@@ -1,13 +1,16 @@
 const express = require('express');
 const auth = require("../middlewares/auth");
 const {addProduct,updateProduct,getOneProduct,getAllProducts,deleteProduct} = require('../controllers/product')
+const { search } = require('../utils/customer')
 
 const router = express.Router()
 
-router.post("/add", auth.isArtist, addProduct)
-router.put("/update/:id", auth.isArtist, updateProduct)
-router.delete("/delete/:id", auth.isArtist, deleteProduct)
-router.get("/one/:id", auth.isArtist, getOneProduct)
-router.get("/all", auth.isArtist, getAllProducts)
+
+router.post("/add", addProduct)
+router.put("/update/:id", updateProduct)
+router.delete("/delete/:id", deleteProduct)
+router.get("/one/:id", getOneProduct)
+router.get("/all", getAllProducts)
+router.get("/search", search)
 
 module.exports = router
