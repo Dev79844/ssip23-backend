@@ -4,11 +4,13 @@ const fileUpload = require('express-fileupload')
 const mongoose = require('mongoose')
 const productRouter = require('./routes/product')
 require('dotenv').config()
+const cookieParser = require('cookie-parser')
 
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+app.use(cookieParser())
 
 app.use(morgan('tiny'))
 app.use(fileUpload({
