@@ -6,10 +6,6 @@ const artisanSchema = new mongoose.Schema({
         gu: String
     },
     age: Number,
-    gender:{
-        type:String,
-        enum: ["male", "female"]
-    },
     address: {
         en: String,
         gu: String

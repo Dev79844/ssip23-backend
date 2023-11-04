@@ -15,8 +15,8 @@ exports.artisanLogin = async (req, res)=>{
             return res.status(403).json({message: "Invalid credentials"});
         const token = jwt.sign({
             id: artisan._id
-        });
-        cookie.accessToken = token;
+        }, process.env.JWT_SECRET);
+        res.cookie("accessToken", token);
         return res.status(200).json({
             message: "Login successful",
             accessToken: token
@@ -40,8 +40,9 @@ exports.userLogin = async (req, res)=>{
             return res.status(403).json({message: "Invalid credentials"});
         const token = jwt.sign({
             id: user._id
-        });
-        cookie.accessToken = token;
+        }, process.env.JWT_SECRET);
+        // res.cookie.accessToken = token;
+        res.cookie("accessToken", token);
         return res.status(200).json({
             message: "Login successful",
             accessToken: token
@@ -53,17 +54,16 @@ exports.userLogin = async (req, res)=>{
 }
 
 exports.artisanRegister = async (req, res)=>{
-    const {name, age, gender, address, mobile, password} = req.body;
+    const {name, age, address, mobile, password} = req.body;
     try{
         let artisan = await Artisan.findOne({mobile});
         if(artisan)
             return res.status(403).json({message: "User already exists"});
-        name = translate(name);
-        address = translate(address);
+        // name = translate(name);
+        // address = translate(address);
         artisan = new Artisan({
             name,
             age,
-            gender,
             address,
             mobile,
             password
@@ -73,8 +73,9 @@ exports.artisanRegister = async (req, res)=>{
         await artisan.save();
         const token = jwt.sign({
             id: artisan._id
-        });
-        cookie.accessToken = token;
+        }, process.env.JWT_SECRET);
+        // res.cookie.accessToken = token;
+        res.cookie("accessToken", token);
         return res.status(200).json({
             message: "Registration successful",
             accessToken: token
@@ -93,7 +94,7 @@ exports.userRegister = async (req, res) => {
         let user = await User.findOne({mobile});
         if(user)
             return res.status(403).json({message: "User already exists"});
-        name = translate(name);
+        // name = translate(name);
         user = new User({
             name,
             mobile,
@@ -104,8 +105,9 @@ exports.userRegister = async (req, res) => {
         await user.save();
         const token = jwt.sign({
             id: user._id
-        });
-        cookie.accessToken = token;
+        }, process.env.JWT_SECRET);
+        // res.cookie.accessToken = token;
+        res.cookie("accessToken", token);
         return res.status(201).json({
             accessToken: token
         });

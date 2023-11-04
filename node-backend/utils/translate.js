@@ -1,8 +1,10 @@
-function translate(obj){
+const axios = require('axios');
+
+async function translate(obj){
     if(obj["en"] && obj.en.length > 0)
-        obj["gu"] = translateEnToGu(obj["en"]);
+        obj["gu"] = await translateEnToGu(obj["en"]);
     else
-        obj["en"] = translateGuToEn(obj["gu"]);
+        obj["en"] = await translateGuToEn(obj["gu"]);
     return obj;
 }
 
@@ -28,4 +30,8 @@ async function translateGuToEn(textData){
     return textEn
 }
 
-module.exports = {translate}
+// console.log(translate({
+//     "en": "Hello"
+// }))
+
+module.exports.translate = translate

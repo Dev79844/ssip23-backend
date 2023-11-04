@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const fileUpload = require('express-fileupload')
 const mongoose = require('mongoose')
 const productRouter = require('./routes/product')
+const RBACRouter = require('./routes/RBAC')
 require('dotenv').config()
 const cookieParser = require('cookie-parser')
 
@@ -18,7 +19,8 @@ app.use(fileUpload({
     tempFileDir: '/tmp/',
 }))
 
-app.use("/api/v1/product",productRouter)
+app.use("/api/v1/product", productRouter)
+app.use("/api/v1", RBACRouter)
 mongoose.connect(process.env.URI)
     .then(() => {
         console.log("DB connected");

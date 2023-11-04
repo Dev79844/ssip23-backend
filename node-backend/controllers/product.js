@@ -5,30 +5,29 @@ const {translate} = require("../utils/translate")
 exports.addProduct = async(req,res) => {
     try {
         let {name,price,description} = req.body 
-        const images = req.files.images
+        // const images = req.files.images
         let urlArr=[]
-
+        
         if(!name || !price || !description){
             return res.status(400).json({message: "Please enter all details"})
         }
-
-        if(req.files.images){
-            urlArr = await uploadImages(res,req.files.images)
-        }
-
-        name = translate(name)
-        description = translate(description)
-
-        await Product.create({
+        
+        // if(req.files.images){
+        //     urlArr = await uploadImages(res,req.files.images)
+        // }
+        // name = translate(name)
+        
+        // description = translate(description)
+        const product = await Product.create({
             name,
             price,
             description,
-            images: urlArr,
-        }).then(() => {
-            return res.status(200).json({message: "OK"})
         })
+        // images: urlArr,
+        await product.save()
+        return res.status(201).json({message: "Product Added!", id: product._id})
     } catch (error) {
-        return res.status(500).json(error)
+        return res.status(500).json({error, message: "Internal Server Error"})
     }
 }
 
@@ -42,10 +41,10 @@ exports.updateProduct = async(req, res) => {
         if (!productData)   return res.status(404).json({message: "Product Not Found!"})
 
         //check and modify fetched data accordingly
-        productData.name = (req.body.name) ?    translate(req.body.name)   :   productData.name; 
+        productData.name = (req.body.name) ?    (req.body.name)   :   productData.name; 
         productData.price = (req.body.price) ?    req.body.price   :   productData.price; 
-        productData.description = (req.body.description) ?    translate(req.body.description)   :   productData.description; 
-        // productData.images = (req.body.images) ?    req.body.images   :   productData.images;
+        productData.description = (req.body.description) ?    (req.body.description)   :   productData.description; 
+        productData.images = (req.body.images) ?    req.body.images   :   productData.images;
 
         if(req.files.images){
             productData.images.forEach(async(image) => {
