@@ -1,9 +1,15 @@
 const mongoose = require('mongoose')
 
 const artisanSchema = new mongoose.Schema({
-    name:String,
+    name: {
+        en: String,
+        gu: String,
+    },
+    address: {
+        en: String, 
+        gu: String,
+    },
     age: Number,
-    address: String,
     mobile: String,
     password:String,
     products:[
