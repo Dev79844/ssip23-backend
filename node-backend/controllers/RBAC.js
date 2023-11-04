@@ -2,6 +2,7 @@ const Artisan = require("../models/artisan");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const translate = require("../utils/translate");
 
 exports.artisanLogin = async (req, res)=>{
     const {mobile, password} = req.body;
@@ -112,35 +113,4 @@ exports.userRegister = async (req, res) => {
     catch(error) {
         return res.status(500).json({message: error.message});
     }
-}
-
-function translate(obj){
-    const translated = {};
-    if(obj["en"] && obj.en.length > 0)
-        obj["gu"] = translateEnToGu(obj["en"]);
-    else
-        obj["en"] = translateGuToEn(obj["gu"]);
-    return obj;
-}
-
-//for en to gu translation
-async function translateEnToGu(textData){
-    let resData = await axios.post(`https://translation.googleapis.com/language/translate/v2?key=${process.env.API_KEY}`,  
-    { 
-        q: textData, target: "gu"
-    });  
-    
-    let textGu = resData.data.data.translations[0].translatedText;  
-    return textGu
-}
-
-//for gu to en translation
-async function translateGuToEn(textData){
-    let resData = await axios.post(`https://translation.googleapis.com/language/translate/v2?key=${process.env.API_KEY}`,  
-    { 
-        q: textData, target: "en"
-    });  
-    
-    let textEn = resData.data.data.translations[0].translatedText;  
-    return textEn
 }

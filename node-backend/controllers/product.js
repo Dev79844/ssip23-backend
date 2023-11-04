@@ -1,9 +1,10 @@
 const Product = require('../models/product')
 const { uploadImages } = require('../utils/uploadImage')
+const {translate} = require("../utils/translate")
 
 exports.addProduct = async(req,res) => {
     try {
-        const {name,price,description} = req.body 
+        let {name,price,description} = req.body 
         const images = req.files.images
         let urlArr=[]
 
@@ -14,6 +15,9 @@ exports.addProduct = async(req,res) => {
         if(req.files.images){
             urlArr = await uploadImages(res,req.files.images)
         }
+
+        name = translate(name)
+        description = translate(description)
 
         await Product.create({
             name,
@@ -38,9 +42,9 @@ exports.updateProduct = async(req, res) => {
         if (!productData)   return res.status(404).json({message: "Product Not Found!"})
 
         //check and modify fetched data accordingly
-        productData.name = (req.body.name) ?    req.body.name   :   productData.name; 
+        productData.name = (req.body.name) ?    translate(req.body.name)   :   productData.name; 
         productData.price = (req.body.price) ?    req.body.price   :   productData.price; 
-        productData.description = (req.body.description) ?    req.body.description   :   productData.description; 
+        productData.description = (req.body.description) ?    translate(req.body.description)   :   productData.description; 
         // productData.images = (req.body.images) ?    req.body.images   :   productData.images;
 
         if(req.files.images){
