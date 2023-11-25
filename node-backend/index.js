@@ -5,6 +5,7 @@ const mongoose = require("mongoose")
 const productRouter = require("./routes/product")
 const analyticsRouter = require("./routes/analytics")
 const cartRouter = require('./routes/cart')
+const artisianRouter = require("./routes/artisian");
 const orderRouter = require('./routes/order')
 const paymentRouter = require('./routes/payment')
 const { sequelize } = require("./db/db")
@@ -39,6 +40,7 @@ app.use("/api/v1", analyticsRouter)
 app.use("/api/v1",cartRouter)
 app.use("/api/v1",orderRouter)
 app.use("/api/v1",paymentRouter)
+app.use("/api/v1/artisianPath", artisianRouter);
 
 // Test route
 app.get("/", (req, res) => {

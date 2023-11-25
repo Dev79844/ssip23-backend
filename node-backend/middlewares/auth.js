@@ -1,4 +1,5 @@
 const Artist = require('../models/artisian');
+const jwt = require('jsonwebtoken');
 const User = require ('../models/user');
 
 exports.isArtist = async (req, res, next) => {

@@ -1,4 +1,4 @@
-const artisian = require("../models/artisian")
+const Artisian = require("../models/artisian.js");
 const User = require("../models/user")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken")
 exports.artisianLogin = async (req, res) => {
   const { mobile, password } = req.body
   try {
-    let artisian = await artisian.findOne({ mobile })
+    let artisian = await Artisian.findOne({ mobile })
     if (!artisian)
       return res.status(403).json({ message: "User does not exists" })
     const isMatch = await bcrypt.compare(password, artisian.password) // Here await is necessary
@@ -63,11 +63,11 @@ exports.userLogin = async (req, res) => {
 exports.artisianRegister = async (req, res) => {
   const { name, age, address, mobile, password } = req.body
   try {
-    let artisian = await artisian.findOne({ mobile })
+    let artisian = await Artisian.findOne({ mobile })
     if (artisian) return res.status(403).json({ message: "User already exists" })
     // name = translate(name);
     // address = translate(address);
-    artisian = new artisian({
+    artisian = new Artisian({
       name,
       age,
       address,
