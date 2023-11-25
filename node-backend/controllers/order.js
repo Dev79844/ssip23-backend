@@ -1,15 +1,15 @@
 const Order = require('../models/order')
 const axios = require('axios')
 
-exports.addOrder = async(customer,product,artisan) => {
+exports.addOrder = async(customer,product,artisian) => {
     try {
         await Order.create({
             customer,
             product,
-            artisan
+            artisian
         }).then(async() => {
             await axios.post('http://localhost:5000/create-analytics-entry',{
-                artisan_id: artisan,
+                artisian_id: artisian,
                 product_id: product
             })
             return 1
@@ -21,8 +21,8 @@ exports.addOrder = async(customer,product,artisan) => {
 
 exports.getOrders = async(req,res) => {
     try {
-        const {artisan} = req.params.id 
-        const orders = await Order.find({artisan})
+        const {artisian} = req.params.id 
+        const orders = await Order.find({artisian})
         if(!orders){
             return res.status(200).json("No orders found")
         }

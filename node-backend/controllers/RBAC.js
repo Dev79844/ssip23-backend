@@ -1,29 +1,29 @@
-const Artisan = require("../models/artisan")
+const artisian = require("../models/artisian")
 const User = require("../models/user")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 // const translate = require("../utils/translate");
 
-exports.artisanLogin = async (req, res) => {
+exports.artisianLogin = async (req, res) => {
   const { mobile, password } = req.body
   try {
-    let artisan = await Artisan.findOne({ mobile })
-    if (!artisan)
+    let artisian = await artisian.findOne({ mobile })
+    if (!artisian)
       return res.status(403).json({ message: "User does not exists" })
-    const isMatch = await bcrypt.compare(password, artisan.password) // Here await is necessary
+    const isMatch = await bcrypt.compare(password, artisian.password) // Here await is necessary
     if (!isMatch)
       return res.status(401).json({ message: "Invalid credentials" })
     const token = jwt.sign(
       {
-        id: artisan._id,
+        id: artisian._id,
       },
       process.env.JWT_SECRET
     )
-    // console.log(artisan)
-    // console.log(artisan._id.valueOf())
+    // console.log(artisian)
+    // console.log(artisian._id.valueOf())
     res.cookie("accessToken", token)
-    res.cookie("role", "artisan") // Sending role also in cookie. This is for frontend to know which role is logged in
-    res.cookie("artisanId", artisan._id.valueOf())
+    res.cookie("role", "artisian") // Sending role also in cookie. This is for frontend to know which role is logged in
+    res.cookie("artisianId", artisian._id.valueOf())
     return res.status(200).json({
       message: "Login successful",
       accessToken: token,
@@ -60,14 +60,14 @@ exports.userLogin = async (req, res) => {
   }
 }
 
-exports.artisanRegister = async (req, res) => {
+exports.artisianRegister = async (req, res) => {
   const { name, age, address, mobile, password } = req.body
   try {
-    let artisan = await Artisan.findOne({ mobile })
-    if (artisan) return res.status(403).json({ message: "User already exists" })
+    let artisian = await artisian.findOne({ mobile })
+    if (artisian) return res.status(403).json({ message: "User already exists" })
     // name = translate(name);
     // address = translate(address);
-    artisan = new Artisan({
+    artisian = new artisian({
       name,
       age,
       address,
@@ -75,18 +75,18 @@ exports.artisanRegister = async (req, res) => {
       password,
     })
     const salt = await bcrypt.genSalt(10)
-    artisan.password = await bcrypt.hash(password, salt)
-    await artisan.save()
+    artisian.password = await bcrypt.hash(password, salt)
+    await artisian.save()
     const token = jwt.sign(
       {
-        id: artisan._id,
+        id: artisian._id,
       },
       process.env.JWT_SECRET
     )
     // res.cookie.accessToken = token;
     res.cookie("accessToken", token)
-    res.cookie("role", "artisan") // Sending role also in cookie. This is for frontend to know which role is logged in
-    res.cookie("artisanId", artisan._id.valueOf())
+    res.cookie("role", "artisian") // Sending role also in cookie. This is for frontend to know which role is logged in
+    res.cookie("artisianId", artisian._id.valueOf())
     return res.status(200).json({
       message: "Registration successful",
       accessToken: token,

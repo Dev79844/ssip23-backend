@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
     model:String,
     artist:{
         type: mongoose.Types.ObjectId,
-        ref:'Artisan'
+        ref:'artisian'
     },
 }, {timestamps: true})
 

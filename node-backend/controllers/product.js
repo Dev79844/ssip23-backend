@@ -142,8 +142,8 @@ exports.viewInventory = async(req,res) => {
 
 exports.buyProduct = async(req,res) => {
     try {
-        const {customer,product,artisan} = req.body 
-        const order = await addOrder(customer,product,artisan)
+        const {customer,product,artisian} = req.body 
+        const order = await addOrder(customer,product,artisian)
     } catch (error) {
         return res.status(500).json(error.message)
     }

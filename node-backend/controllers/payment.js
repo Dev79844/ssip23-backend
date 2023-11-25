@@ -37,7 +37,7 @@ exports.checkout = async(req,res) => {
 
         const session = await stripe.checkout.sessions.create(params)
         await products.map(async(product) => {
-            await addOrder(customer,product.id,product.artisan)
+            await addOrder(customer,product.id,product.artisian)
         })
         return res.status(200).json(session.url)
 
